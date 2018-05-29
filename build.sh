@@ -1,15 +1,17 @@
 HERE=$(dirname $0)
 
-PHPVER=
-
-[ "$1" = "5.6" ] && PHPVER=5.6
-# [ "$1" = "7.0" ] && PHPVER=7.0
+PHPVER="${1}"
 
 if [ "${#PHPVER}" -lt 1 ]; then
-    echo "build.sh 5.6 [tag=latest]"
+    echo "build.sh php-version [tag]"
     exit
 fi
 
-[ "${#2}" -lt 1 ] && TAG=latest || TAG=$2
+if [ ! -d "${PHPVER}" ]; then
+    echo "PHP version ${PHPVER} not supported"
+    exit
+fi
 
-docker build -f php$PHPVER.Dockerfile -t annybs/php$PHPVER-alpine:$TAG $HERE
+[ "${#2}" -lt 1 ] && TAG="" || TAG="-${2}"
+
+docker build -f ${PHPVER}/Dockerfile -t wearejh/php:${PHPVER}${TAG} ${HERE}

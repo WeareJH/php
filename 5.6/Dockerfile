@@ -69,12 +69,12 @@ RUN curl -O https://files.magerun.net/n98-magerun.phar \
     && mv n98-magerun.phar /usr/local/bin/n98 \
     && chmod +x /usr/local/bin/n98
 
-COPY etc/custom.template etc/xdebug.template etc/msmtprc.template $TEMPLATE_DIR/
+COPY common/template/ $TEMPLATE_DIR/
 
-COPY bin/php5-docker-configure /usr/local/bin/
-RUN chmod +x /usr/local/bin/php5-docker-configure
+COPY 5.6/bin/docker-configure /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-configure
 
 WORKDIR /var/www
 
-ENTRYPOINT ["/usr/local/bin/php5-docker-configure"]
+ENTRYPOINT ["/usr/local/bin/docker-configure"]
 CMD ["php-fpm"]
