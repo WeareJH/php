@@ -45,7 +45,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini;
 
 ENV COMPOSER_CACHE_DIR /home/www-data/.composer
-ENV HTML_DIR /var/www/html
+ENV HTML_DIR /var/www/htdocs
 ENV MAIL_HOST mail
 ENV MAIL_PORT 1025
 ENV PHP_FPM_PORT 9000
@@ -74,7 +74,7 @@ COPY common/template/ $TEMPLATE_DIR/
 COPY 5.6/bin/docker-configure /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-configure
 
-WORKDIR /var/www
+WORKDIR $HTML_DIR
 
 ENTRYPOINT ["/usr/local/bin/docker-configure"]
 CMD ["php-fpm"]
