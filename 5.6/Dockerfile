@@ -71,7 +71,7 @@ RUN curl -O https://files.magerun.net/n98-magerun.phar \
 
 COPY common/template/ $TEMPLATE_DIR/
 
-COPY 5.6/bin/docker-configure /usr/local/bin/
+COPY common/bin/docker-configure /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-configure
 
 WORKDIR $HTML_DIR
