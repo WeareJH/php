@@ -46,8 +46,6 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini;
 
 ENV COMPOSER_CACHE_DIR /home/www-data/.composer
-# @todo not used in 7.1 image at the moment, tbc
-ENV HTML_DIR /var/www/htdocs
 ENV MAIL_HOST mail
 ENV MAIL_PORT 1025
 ENV PHP_FPM_PORT 9000
@@ -85,7 +83,6 @@ RUN chmod +x \
 
 WORKDIR /var/www
 
-# @todo not sure we should be doing this?
 RUN rm -rf html && mkdir pub && mkdir var && mkdir -p app/etc
 
 ENTRYPOINT ["/usr/local/bin/docker-configure"]
