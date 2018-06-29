@@ -12,6 +12,4 @@ if [ ! -d "${PHPVER}" ]; then
     exit
 fi
 
-[ "${#2}" -lt 1 ] && TAG="" || TAG="-${2}"
-
-docker build -f ${PHPVER}/Dockerfile -t wearejh/php:${PHPVER}${TAG} ${HERE}
+docker build -f ${PHPVER}/Dockerfile -t wearejh/php:${PHPVER} ${HERE}
