@@ -1,9 +1,10 @@
 HERE=$(dirname $0)
 
 PHPVER="${1}"
+REPO=wearejh/$CIRCLE_PROJECT_REPONAME
 
 if [ "${#PHPVER}" -lt 1 ]; then
-    echo "build.sh php-version [tag]"
+    echo "build.sh php-version"
     exit
 fi
 
@@ -12,6 +13,7 @@ if [ ! -d "${PHPVER}" ]; then
     exit
 fi
 
-[ "${#2}" -lt 1 ] && TAG="" || TAG="-${2}"
+docker pull ${REPO}:${PHPVER}
+docker tag ${REPO}:${PHPVER} ${REPO}:${PHPVER}-current
 
-docker build -f ${PHPVER}/Dockerfile -t wearejh/php:${PHPVER}${TAG} ${HERE}
+docker build -f ${PHPVER}/Dockerfile -t ${REPO}:${PHPVER} ${HERE}
