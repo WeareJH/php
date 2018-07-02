@@ -31,3 +31,15 @@ workflows:
                     branches:
                         only:
                             - master
+
+    weekly_builds:
+        triggers:
+            - schedule:
+                cron: "0 10 * * 1"
+                filters:
+                    branches:
+                        only:
+                            - master
+        jobs:
+            - build
+            - build-5.6
