@@ -1,7 +1,7 @@
 HERE=$(dirname $0)
 
 PHPVER="${1}"
-REPO=wearejh/$CIRCLE_PROJECT_REPONAME
+REPO=wearejh/php
 
 if [ "${#PHPVER}" -lt 1 ]; then
     echo "build.sh php-version"

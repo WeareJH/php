@@ -1,4 +1,4 @@
-FROM php:5.6-fpm
+FROM php:7.0-fpm
 MAINTAINER JH <hello@wearejh.com>
 
 RUN apt-get update \
@@ -16,7 +16,8 @@ RUN apt-get install -y \
     libxslt1-dev \
     msmtp \
     mysql-client \
-    nodejs
+    nodejs \
+    vim
 
 RUN docker-php-ext-configure \
     gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
@@ -44,7 +45,6 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini;
 
 ENV COMPOSER_CACHE_DIR /home/www-data/.composer
-ENV HTML_DIR /var/www/htdocs
 ENV MAIL_HOST mail
 ENV MAIL_PORT 1025
 ENV PHP_FPM_PORT 9000
@@ -57,23 +57,31 @@ ENV XDEBUG_ENABLE 0
 ENV XDEBUG_HOST docker.for.mac.host.internal
 ENV XDEBUG_IDE_KEY PHPSTORM
 ENV XDEBUG_PORT 9000
-
 ENV XDEBUG_CONFIG=remote_host=$XDEBUG_HOST
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin \
     --filename=composer
 
-RUN curl -O https://files.magerun.net/n98-magerun.phar \
-    && mv n98-magerun.phar /usr/local/bin/n98 \
-    && chmod +x /usr/local/bin/n98
+RUN curl -O https://files.magerun.net/n98-magerun2.phar \
+    && mv n98-magerun2.phar /usr/local/bin/n98-magerun2 \
+    && chmod +x /usr/local/bin/n98-magerun2
 
 COPY common/template/ $TEMPLATE_DIR/
 
-COPY common/bin/docker-configure /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-configure
+COPY common/bin/docker-configure \
+     7.x/bin/magento-install \
+     7.x/bin/magento-configure \
+     /usr/local/bin/
 
-WORKDIR $HTML_DIR
+RUN chmod +x \
+    /usr/local/bin/docker-configure \
+    /usr/local/bin/magento-install \
+    /usr/local/bin/magento-configure
+
+WORKDIR /var/www
+
+RUN rm -rf html && mkdir pub && mkdir var && mkdir -p app/etc
 
 ENTRYPOINT ["/usr/local/bin/docker-configure"]
 CMD ["php-fpm"]
