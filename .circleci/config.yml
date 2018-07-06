@@ -39,6 +39,12 @@ workflows:
                         only:
                             - master
 
+            - build-7.0:
+                filters:
+                    branches:
+                        only:
+                            - master
+
     weekly_builds:
         triggers:
             - schedule:
