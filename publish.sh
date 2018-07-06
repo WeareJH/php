@@ -2,7 +2,7 @@ HERE=$(dirname $0)
 
 PHPVER="${1}"
 GITREV="$(git rev-parse --short HEAD)"
-REPO=wearejh/$CIRCLE_PROJECT_REPONAME
+REPO=wearejh/php
 
 if [ "${#PHPVER}" -lt 1 ]; then
     echo "publish.sh php-version"
