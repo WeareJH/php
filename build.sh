@@ -16,4 +16,4 @@ fi
 docker pull ${REPO}:${PHPVER}
 docker tag ${REPO}:${PHPVER} ${REPO}:${PHPVER}-current
 
-docker build --no-cache -f ${PHPVER}/Dockerfile -t ${REPO}:${PHPVER} ${HERE}
+docker build ${2} -f ${PHPVER}/Dockerfile -t ${REPO}:${PHPVER} ${HERE}

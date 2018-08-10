@@ -1,9 +1,14 @@
 #!/bin/bash
 
-envsubst < $TEMPLATE_DIR/xdebug.ini > /usr/local/etc/php/conf.d/xdebug.ini
-envsubst < $TEMPLATE_DIR/custom.ini > /usr/local/etc/php/conf.d/custom.ini
 envsubst < $TEMPLATE_DIR/msmtprc > /etc/msmtprc
 
 [ "$XDEBUG_ENABLE" = "true" ] && docker-php-ext-enable xdebug
 
-exec "$@"
+case $@ in
+    php-fpm*)
+        exec "$@" ;;
+    bash*)
+        exec "$@" ;;
+    *)
+        su www-data -c "$@" ;;
+esac
