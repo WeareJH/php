@@ -44,6 +44,8 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini;
 
+RUN usermod -s $(which bash) www-data
+
 ENV COMPOSER_CACHE_DIR /home/www-data/.composer
 ENV HTML_DIR /var/www/htdocs
 ENV MAIL_HOST mail
@@ -69,7 +71,8 @@ RUN curl -O https://files.magerun.net/n98-magerun.phar \
     && mv n98-magerun.phar /usr/local/bin/n98 \
     && chmod +x /usr/local/bin/n98
 
-COPY common/template/ $TEMPLATE_DIR/
+COPY common/template/custom.ini common/template/xdebug.ini /usr/local/etc/php/conf.d/
+COPY common/template/msmtprc $TEMPLATE_DIR/
 
 COPY common/bin/docker-configure /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-configure
