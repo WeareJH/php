@@ -37,7 +37,8 @@ RUN docker-php-ext-install \
     xsl \
     zip
 
-RUN pecl install -o -f xdebug-2.5.0
+RUN pecl install -o -f xdebug redis \
+    && docker-php-ext-enable redis
 
 RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
