@@ -5,8 +5,8 @@ jobs:
         machine: true
         steps:
             - checkout
-            - run: ./build.sh 7.1 --no-cache
-            - run: ./publish.sh 7.1
+            - run: ./build.sh 7.2 --no-cache
+            - run: ./publish.sh 7.2
 
     build-5.6:
         machine: true
@@ -22,6 +22,12 @@ jobs:
             - run: ./build.sh 7.0 --no-cache
             - run: ./publish.sh 7.0
 
+    build-7.1:
+        machine: true
+        steps:
+            - checkout
+            - run: ./build.sh 7.1 --no-cache
+            - run: ./publish.sh 7.1
 
 workflows:
     version: 2
@@ -45,6 +51,12 @@ workflows:
                         only:
                             - master
 
+            - build-7.1:
+                filters:
+                    branches:
+                        only:
+                            - master
+
     weekly_builds:
         triggers:
             - schedule:
@@ -57,3 +69,4 @@ workflows:
             - build
             - build-5.6
             - build-7.0
+            - build-7.1
