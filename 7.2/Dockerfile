@@ -16,7 +16,7 @@ RUN apt-get install -y \
     libxslt1-dev \
     libsodium-dev \
     msmtp \
-    mysql-client \
+    default-mysql-client \
     nodejs \
     vim
 

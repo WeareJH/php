@@ -16,7 +16,7 @@ RUN apt-get install -y \
     libpng-dev \
     libxslt1-dev \
     msmtp \
-    mysql-client \
+    default-mysql-client \
     nodejs \
     vim
 
@@ -35,7 +35,8 @@ RUN docker-php-ext-install \
     pdo_mysql \
     soap \
     xsl \
-    zip
+    zip \
+    sockets
 
 RUN pecl install -o -f xdebug-2.5.0
 
