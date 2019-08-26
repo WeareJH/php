@@ -35,7 +35,8 @@ RUN docker-php-ext-install \
     soap \
     xsl \
     zip \
-    sodium
+    sodium \
+    sockets
 
 RUN pecl install -o -f xdebug
 
